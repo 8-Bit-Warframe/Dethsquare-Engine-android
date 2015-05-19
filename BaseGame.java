@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.ezardlabs.dethsquare.R;
 
 public abstract class BaseGame extends Activity {
+	ViewGroup root;
 	View gestureOverlay;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,9 +28,12 @@ public abstract class BaseGame extends Activity {
 			getWindow().getDecorView().setSystemUiVisibility(visibility);
 		}
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setContentView(new GameView(this));
+		setContentView(R.layout.main);
+		root = (ViewGroup) findViewById(R.id.root);
 		gestureOverlay = findViewById(R.id.gestures);
-		create();
+		Utils.init(this);
+		while (root.getChildCount() > 1) root.removeViewAt(0);
+		((ViewGroup) findViewById(R.id.root)).addView(new GameView(this), 0);
 	}
 
 	public abstract void create();
