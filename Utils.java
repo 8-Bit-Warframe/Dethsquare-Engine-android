@@ -14,6 +14,13 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 public class Utils {
+	public static final Platform PLATFORM = Platform.ANDROID;
+
+	public enum Platform {
+		ANDROID,
+		DEKSTOP
+	}
+
 	private static Context context;
 
 	/**
@@ -102,7 +109,6 @@ public class Utils {
 			textureLoc = GLES20.glGetUniformLocation(ShaderTools.sp_Image, "s_texture");
 			inited = true;
 		}
-
 
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureName);
 
