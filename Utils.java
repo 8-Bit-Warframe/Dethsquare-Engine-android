@@ -7,6 +7,8 @@ import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 
+import com.ezardlabs.dethsquare.Camera;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -150,5 +152,7 @@ public class Utils {
 
 		// Calculate the projection and view transformation
 		Matrix.multiplyMM(mtrxProjectionAndView, 0, mtrxProjection, 0, mtrxView, 0);
+
+		Camera.main.bounds.set(0, 0, width, height);
 	}
 }

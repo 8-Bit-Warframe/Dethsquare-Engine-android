@@ -25,8 +25,6 @@ public class GLRenderer implements android.opengl.GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		Camera.main = new Camera(true);
-
 		GLES20.glClearColor(1.0f, 0.0f, 0.0f, 1);
 
 		GLES20.glEnable(GLES20.GL_BLEND);
@@ -51,10 +49,7 @@ public class GLRenderer implements android.opengl.GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-
 		Utils.onScreenSizeChanged(width, height);
-
-		Camera.main.bounds.set(0, 0, width, height);
 	}
 
 	@Override
