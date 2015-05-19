@@ -1,13 +1,11 @@
-package com.ezardlabs.lostsector.engine2.util;
+package com.ezardlabs.dethsquare.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
-
-import com.ezardlabs.lostsector.Main;
-import com.ezardlabs.lostsector.engine2.ShaderTools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,6 +14,14 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 public class Utils {
+	private static Context context;
+
+	/**
+	 * Only needed for Android
+	 */
+	public static void init(Context context) {
+		Utils.context = context;
+	}
 
 	/**
 	 * Loads the image at the given path, then binds it to an OpenGL 2D texture
@@ -29,7 +35,7 @@ public class Utils {
 
 		Bitmap bmp = null;
 		try {
-			bmp = BitmapFactory.decodeStream(Main.ctx.getAssets().open(path));
+			bmp = BitmapFactory.decodeStream(context.getAssets().open(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +67,7 @@ public class Utils {
 	 */
 	public static BufferedReader getReader(String path) throws IOException {
 		return new BufferedReader(
-				new InputStreamReader(Main.ctx.getApplicationContext().getAssets().open(path)));
+				new InputStreamReader(context.getApplicationContext().getAssets().open(path)));
 	}
 
 	/**
