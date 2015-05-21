@@ -155,4 +155,13 @@ public class Utils {
 
 		Camera.main.bounds.set(0, 0, width, height);
 	}
+
+	public static void setCameraPosition(Camera camera) {
+		if (camera != null) {
+			Matrix.setLookAtM(mtrxView, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+			Matrix.translateM(mtrxView, 0, (int) -camera.transform.position.x,
+					(int) -camera.transform.position.y, 0);
+			Matrix.multiplyMM(mtrxProjectionAndView, 0, mtrxProjection, 0, mtrxView, 0);
+		}
+	}
 }
