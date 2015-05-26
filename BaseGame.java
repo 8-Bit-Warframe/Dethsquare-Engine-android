@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.ezardlabs.dethsquare.GameObject;
 import com.ezardlabs.dethsquare.R;
+import com.ezardlabs.dethsquare.Renderer;
+import com.ezardlabs.dethsquare.Screen;
 
 public abstract class BaseGame extends Activity {
 	ViewGroup root;
@@ -38,9 +41,17 @@ public abstract class BaseGame extends Activity {
 
 	public abstract void create();
 
-	public abstract void update();
+	void update() {
+		GameObject.updateAll();
+	}
 
-	public abstract void render();
+	void render() {
+		Renderer.renderAll();
+	}
 
-	public abstract void onResize(int width, int height);
+	void onResize(int width, int height) {
+		Screen.scale = (float) width / 1920f;
+		Screen.width = width;
+		Screen.height = height;
+	}
 }

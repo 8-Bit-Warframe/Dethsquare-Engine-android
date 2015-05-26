@@ -103,7 +103,7 @@ public class Utils {
 	private static boolean inited = false;
 
 	public static void render(int textureName, FloatBuffer vertexBuffer, FloatBuffer uvBuffer,
-			short[] indices, ShortBuffer drawListBuffer) {
+			short[] indices, ShortBuffer indexBuffer) {
 		if (!inited) {
 			vPositionLoc = GLES20.glGetAttribLocation(ShaderTools.sp_Image, "vPosition");
 			texCoordLoc = GLES20.glGetAttribLocation(ShaderTools.sp_Image, "a_texCoord");
@@ -124,8 +124,10 @@ public class Utils {
 
 		GLES20.glUniform1i(textureLoc, 0);
 
+		GLES20.glDrawElements(0, 0, 0, 0);
+
 		GLES20.glDrawElements(GLES20.GL_TRIANGLES, indices.length, GLES20.GL_UNSIGNED_SHORT,
-				drawListBuffer);
+				indexBuffer);
 
 		GLES20.glDisableVertexAttribArray(vPositionLoc);
 		GLES20.glDisableVertexAttribArray(texCoordLoc);
