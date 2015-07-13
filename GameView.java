@@ -3,10 +3,12 @@ package com.ezardlabs.dethsquare.util;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.ezardlabs.dethsquare.Input;
 
-public class GameView extends GLSurfaceView {
+public class GameView extends GLSurfaceView implements OnClickListener {
 
 	private final GLRenderer mRenderer;
 
@@ -15,6 +17,7 @@ public class GameView extends GLSurfaceView {
 		setEGLContextClientVersion(2);
 		mRenderer = new GLRenderer((BaseGame) context);
 		setRenderer(mRenderer);
+		setOnClickListener(this);
 	}
 
 	@Override
@@ -88,6 +91,11 @@ public class GameView extends GLSurfaceView {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+
 	}
 
 	public void onSizeChanged(int w, int h, int oldw, int oldh) {

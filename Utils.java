@@ -3,13 +3,17 @@ package com.ezardlabs.dethsquare.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 
 import com.ezardlabs.dethsquare.Camera;
+import com.ezardlabs.dethsquare.Screen;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
@@ -23,6 +27,9 @@ public class Utils {
 		DEKSTOP
 	}
 
+	/**
+	 * Only needed for Android
+	 */
 	private static Context context;
 
 	/**
@@ -161,9 +168,13 @@ public class Utils {
 	public static void setCameraPosition(Camera camera) {
 		if (camera != null) {
 			Matrix.setLookAtM(mtrxView, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-			Matrix.translateM(mtrxView, 0, (int) -camera.transform.position.x,
-					(int) -camera.transform.position.y, 0);
+			Matrix.translateM(mtrxView, 0, (int) -camera.transform.position.x * Screen.scale,
+					(int) -camera.transform.position.y * Screen.scale, 0);
 			Matrix.multiplyMM(mtrxProjectionAndView, 0, mtrxProjection, 0, mtrxView, 0);
 		}
+	}
+
+	public static void playAudio(String fileName) {
+		MediaPlayer player = MediaPlayer.create(context, Uri.fromFile(new File(fileName)));
 	}
 }
