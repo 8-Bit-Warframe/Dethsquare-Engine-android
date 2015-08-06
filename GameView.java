@@ -2,6 +2,7 @@ package com.ezardlabs.dethsquare.util;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,7 +70,7 @@ public class GameView extends GLSurfaceView implements OnClickListener {
 //	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+	public boolean onTouchEvent(@NonNull MotionEvent event) {
 		for (Input.OnTouchListener otl : Input.onTouchListeners) {
 			switch (event.getActionMasked()) {
 				case MotionEvent.ACTION_DOWN:
@@ -78,7 +79,11 @@ public class GameView extends GLSurfaceView implements OnClickListener {
 							event.getY(event.getActionIndex()));
 					break;
 				case MotionEvent.ACTION_OUTSIDE:
+					otl.onTouchOutside(event.getActionIndex());
+					break;
 				case MotionEvent.ACTION_CANCEL:
+					otl.onTouchCancel(event.getActionIndex());
+					break;
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_POINTER_UP:
 					otl.onTouchUp(event.getActionIndex(), event.getX(event.getActionIndex()),

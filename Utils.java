@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.ezardlabs.dethsquare.Camera;
 import com.ezardlabs.dethsquare.Screen;
@@ -47,6 +48,7 @@ public class Utils {
 	 * the height of the loaded image
 	 */
 	public static int[] loadImage(String path) {
+
 		int[] returnVals = new int[3];
 
 		Bitmap bmp = null;
@@ -54,6 +56,7 @@ public class Utils {
 			bmp = BitmapFactory.decodeStream(context.getAssets().open(path));
 		} catch (IOException e) {
 			e.printStackTrace();
+			Log.e("", "Texture at " + path + " could not be loaded");
 		}
 
 		int[] textureNames = new int[1];
@@ -167,7 +170,7 @@ public class Utils {
 
 	public static void setCameraPosition(Camera camera) {
 		if (camera != null) {
-			Matrix.setLookAtM(mtrxView, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+			Matrix.setLookAtM(mtrxView, 0, 0f, 0f, 1f, 0f, 0f, -100f, 0f, 1.0f, 0.0f);
 			Matrix.translateM(mtrxView, 0, (int) -camera.transform.position.x * Screen.scale,
 					(int) -camera.transform.position.y * Screen.scale, 0);
 			Matrix.multiplyMM(mtrxProjectionAndView, 0, mtrxProjection, 0, mtrxView, 0);

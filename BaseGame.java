@@ -15,6 +15,7 @@ import com.ezardlabs.dethsquare.Screen;
 public abstract class BaseGame extends Activity {
 	ViewGroup root;
 	View gestureOverlay;
+	static GameView gameView;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,7 +37,7 @@ public abstract class BaseGame extends Activity {
 		gestureOverlay = findViewById(R.id.gestures);
 		Utils.init(this);
 		while (root.getChildCount() > 1) root.removeViewAt(0);
-		((ViewGroup) findViewById(R.id.root)).addView(new GameView(this), 0);
+		((ViewGroup) findViewById(R.id.root)).addView(gameView = new GameView(this), 0);
 	}
 
 	public abstract void create();
