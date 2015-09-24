@@ -1,24 +1,25 @@
 package com.ezardlabs.dethsquare.util;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.ezardlabs.dethsquare.AudioSource.AudioClip;
 import com.ezardlabs.dethsquare.Camera;
 import com.ezardlabs.dethsquare.Screen;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.HashMap;
 
 public class Utils {
 	public static final Platform PLATFORM = Platform.ANDROID;
@@ -177,7 +178,37 @@ public class Utils {
 		}
 	}
 
-	public static void playAudio(String fileName) {
-		MediaPlayer player = MediaPlayer.create(context, Uri.fromFile(new File(fileName)));
+	private static HashMap<AudioClip, MediaPlayer> playingAudio = new HashMap<>();
+
+	public static void playAudio(final AudioClip audioClip) {
+		playAudio(audioClip, false);
+	}
+
+	public static void playAudio(final AudioClip audioClip, final boolean loop) {
+		MediaPlayer player;
+		if (playingAudio.containsKey(audioClip)) {
+			player = playingAudio.get(audioClip);
+			player.stop();
+			player.release();
+		} else {
+			player = new MediaPlayer();
+		}
+		try {
+			AssetFileDescriptor afd = context.getAssets().openFd(audioClip.getPath());
+			player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+			player.prepare();
+			player.setLooping(loop);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		player.start();
+		playingAudio.put(audioClip, player);
+	}
+
+	public static void stopAudio(AudioClip audioClip) {
+		if (playingAudio.containsKey(audioClip)) {
+			playingAudio.remove(audioClip).stop();
+		}
 	}
 }
