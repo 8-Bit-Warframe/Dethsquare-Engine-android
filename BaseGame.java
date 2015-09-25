@@ -3,6 +3,7 @@ package com.ezardlabs.dethsquare.util;
 import android.app.Activity;
 import android.os.Build.VERSION;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -38,6 +39,18 @@ public abstract class BaseGame extends Activity {
 		Utils.init(this);
 		while (root.getChildCount() > 1) root.removeViewAt(0);
 		((ViewGroup) findViewById(R.id.root)).addView(gameView = new GameView(this), 0);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		gameView.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		gameView.onPause();
 	}
 
 	public abstract void create();
