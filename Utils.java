@@ -1,6 +1,7 @@
 package com.ezardlabs.dethsquare.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.media.MediaPlayer;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.ezardlabs.dethsquare.AudioSource.AudioClip;
@@ -33,12 +35,17 @@ public class Utils {
 	 * Only needed for Android
 	 */
 	private static Context context;
+	/**
+	 * Used for storing PlayerPrefs on Android
+	 */
+	private static SharedPreferences prefs;
 
 	/**
 	 * Only needed for Android
 	 */
 	public static void init(Context context) {
 		Utils.context = context;
+		prefs = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
 	/**
@@ -114,7 +121,7 @@ public class Utils {
 	private static boolean inited = false;
 
 	public static void render(int textureName, FloatBuffer vertexBuffer, FloatBuffer uvBuffer,
-			short[] indices, ShortBuffer indexBuffer) {
+							  short[] indices, ShortBuffer indexBuffer) {
 		if (!inited) {
 			vPositionLoc = GLES20.glGetAttribLocation(ShaderTools.sp_Image, "vPosition");
 			texCoordLoc = GLES20.glGetAttribLocation(ShaderTools.sp_Image, "a_texCoord");
@@ -210,5 +217,49 @@ public class Utils {
 		if (playingAudio.containsKey(audioClip)) {
 			playingAudio.remove(audioClip).stop();
 		}
+	}
+
+	public static void resumeAllAudio() {
+		for (MediaPlayer m : playingAudio.values()) {
+			m.start();
+		}
+	}
+
+	public static void pauseAllAudio() {
+		for (MediaPlayer m : playingAudio.values()) {
+			m.pause();
+		}
+	}
+
+	public static void setBoolean(String key, boolean value) {
+		prefs.edit().putBoolean(key, value).apply();
+	}
+
+	public static void setInt(String key, int value) {
+		prefs.edit().putInt(key, value).apply();
+	}
+
+	public static void setFloat(String key, float value) {
+		prefs.edit().putFloat(key, value).apply();
+	}
+
+	public static void setString(String key, String value) {
+		prefs.edit().putString(key, value).apply();
+	}
+
+	public static boolean getBoolean(String key, boolean defaultValue) {
+		return prefs.getBoolean(key, defaultValue);
+	}
+
+	public static int getInt(String key, int defaultValue) {
+		return prefs.getInt(key, defaultValue);
+	}
+
+	public static float getFloat(String key, float defaultValue) {
+		return prefs.getFloat(key, defaultValue);
+	}
+
+	public static String getString(String key, String defaultValue) {
+		return prefs.getString(key, defaultValue);
 	}
 }
