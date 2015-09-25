@@ -142,8 +142,6 @@ public class Utils {
 
 		GLES20.glUniform1i(textureLoc, 0);
 
-		GLES20.glDrawElements(0, 0, 0, 0);
-
 		GLES20.glDrawElements(GLES20.GL_TRIANGLES, indices.length, GLES20.GL_UNSIGNED_SHORT,
 				indexBuffer);
 
