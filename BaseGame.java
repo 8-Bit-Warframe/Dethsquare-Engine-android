@@ -3,7 +3,6 @@ package com.ezardlabs.dethsquare.util;
 import android.app.Activity;
 import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -20,6 +19,17 @@ public abstract class BaseGame extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		root = (ViewGroup) findViewById(R.id.root);
+		gestureOverlay = findViewById(R.id.gestures);
+		Utils.init(this);
+		while (root.getChildCount() > 1) root.removeViewAt(0);
+		((ViewGroup) findViewById(R.id.root)).addView(gameView = new GameView(this), 0);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 		if (VERSION.SDK_INT >= 14) {
 			int visibility = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 			if (VERSION.SDK_INT >= 16) {
@@ -33,17 +43,6 @@ public abstract class BaseGame extends Activity {
 			getWindow().getDecorView().setSystemUiVisibility(visibility);
 		}
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		setContentView(R.layout.main);
-		root = (ViewGroup) findViewById(R.id.root);
-		gestureOverlay = findViewById(R.id.gestures);
-		Utils.init(this);
-		while (root.getChildCount() > 1) root.removeViewAt(0);
-		((ViewGroup) findViewById(R.id.root)).addView(gameView = new GameView(this), 0);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
 		gameView.onResume();
 	}
 
