@@ -3,8 +3,6 @@ package com.ezardlabs.dethsquare.util;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.ezardlabs.dethsquare.Input;
 
