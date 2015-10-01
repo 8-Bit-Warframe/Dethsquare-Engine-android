@@ -2,16 +2,23 @@ package com.ezardlabs.dethsquare.util;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.ezardlabs.dethsquare.Input;
 
 public class GameView extends GLSurfaceView {
-
 	private final GLRenderer mRenderer;
 
 	public GameView(Context context) {
 		super(context);
+		setEGLContextClientVersion(2);
+		mRenderer = new GLRenderer((BaseGame) context);
+		setRenderer(mRenderer);
+	}
+
+	public GameView(Context context, AttributeSet attrs) {
+		super(context, attrs);
 		setEGLContextClientVersion(2);
 		mRenderer = new GLRenderer((BaseGame) context);
 		setRenderer(mRenderer);

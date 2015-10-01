@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.ezardlabs.dethsquare.GameObject;
@@ -13,18 +12,13 @@ import com.ezardlabs.dethsquare.Renderer;
 import com.ezardlabs.dethsquare.Screen;
 
 public abstract class BaseGame extends Activity {
-	ViewGroup root;
-	View gestureOverlay;
-	static GameView gameView;
+	private GameView gameView;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		root = (ViewGroup) findViewById(R.id.root);
-		gestureOverlay = findViewById(R.id.gestures);
+		gameView = (GameView) findViewById(R.id.root);
 		Utils.init(this);
-		while (root.getChildCount() > 1) root.removeViewAt(0);
-		((ViewGroup) findViewById(R.id.root)).addView(gameView = new GameView(this), 0);
 	}
 
 	@Override
