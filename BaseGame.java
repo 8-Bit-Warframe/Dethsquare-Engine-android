@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.ezardlabs.dethsquare.GameObject;
+import com.ezardlabs.dethsquare.Input;
 import com.ezardlabs.dethsquare.R;
 import com.ezardlabs.dethsquare.Renderer;
 import com.ezardlabs.dethsquare.Screen;
+import com.ezardlabs.dethsquare.Time;
 
 public abstract class BaseGame extends Activity {
 	private GameView gameView;
@@ -49,7 +51,9 @@ public abstract class BaseGame extends Activity {
 	public abstract void create();
 
 	void update() {
+		Input.update();
 		GameObject.updateAll();
+		Time.frameCount++;
 	}
 
 	void render() {

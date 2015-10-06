@@ -40,29 +40,24 @@ public class GameView extends GLSurfaceView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		for (Input.OnTouchListener otl : Input.onTouchListeners) {
-			switch (event.getActionMasked()) {
-				case MotionEvent.ACTION_DOWN:
-				case MotionEvent.ACTION_POINTER_DOWN:
-					otl.onTouchDown(event.getActionIndex(), event.getX(event.getActionIndex()),
-							event.getY(event.getActionIndex()));
-					break;
-				case MotionEvent.ACTION_OUTSIDE:
-					otl.onTouchOutside(event.getActionIndex());
-					break;
-				case MotionEvent.ACTION_CANCEL:
-					otl.onTouchCancel(event.getActionIndex());
-					break;
-				case MotionEvent.ACTION_UP:
-				case MotionEvent.ACTION_POINTER_UP:
-					otl.onTouchUp(event.getActionIndex(), event.getX(event.getActionIndex()),
-							event.getY(event.getActionIndex()));
-					break;
-				case MotionEvent.ACTION_MOVE:
-					otl.onTouchMove(event.getActionIndex(), event.getX(event.getActionIndex()),
-							event.getY(event.getActionIndex()));
-					break;
-			}
+		int index = event.getActionIndex();
+		int id = event.getPointerId(event.getActionIndex());
+		switch(event.getActionMasked()) {
+			case MotionEvent.ACTION_DOWN:
+			case MotionEvent.ACTION_POINTER_DOWN:
+				Input.addTouch(id, event.getX(index), event.getY(index));
+				break;
+			case MotionEvent.ACTION_OUTSIDE:
+			case MotionEvent.ACTION_CANCEL:
+				Input.cancelTouch(id, event.getX(index), event.getY(index));
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_POINTER_UP:
+				Input.removeTouch(id, event.getX(index), event.getY(index));
+				break;
+			case MotionEvent.ACTION_MOVE:
+				Input.moveTouch(id, event.getX(index), event.getY(index));
+				break;
 		}
 		return true;
 	}
