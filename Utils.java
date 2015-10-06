@@ -28,7 +28,7 @@ public class Utils {
 
 	public enum Platform {
 		ANDROID,
-		DEKSTOP
+		DESKTOP
 	}
 
 	/**
