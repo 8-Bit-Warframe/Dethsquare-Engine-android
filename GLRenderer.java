@@ -44,10 +44,6 @@ public class GLRenderer implements android.opengl.GLSurfaceView.Renderer {
 		GLES20.glUseProgram(ShaderTools.sp_Image);
 
 		baseGame.create();
-
-		GameObject.startAll();
-		Renderer.init();
-		Collider.init();
 	}
 
 	@Override
