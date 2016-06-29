@@ -183,6 +183,16 @@ public class Utils {
 		}
 	}
 
+	public static void destroyAllTextures(HashMap<String, int[]> textures) {
+		int[] names = new int[textures.size()];
+		int count = 0;
+		for (int[] ia : textures.values()) {
+			names[count++] = ia[0];
+		}
+
+		GLES20.glDeleteTextures(names.length, names, 0);
+	}
+
 	private static HashMap<AudioClip, MediaPlayer> playingAudio = new HashMap<>();
 
 	public static void playAudio(final AudioClip audioClip) {
